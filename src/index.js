@@ -92,11 +92,15 @@ class Game extends React.Component {
             const clickedPositon = clickedIndex !== null ? convertIndexToPostion(clickedIndex) : null;
 
             const desc = move ?
-                'Go to move #' + move + ` (${clickedPositon?.col}, ${clickedPositon?.row})` :
-                'Go to game start';
+                <span style={{ fontWeight: move === this.state.stepNumber ? 800 : "" }}>
+                    {'Go to move #' + move + ` (${clickedPositon?.col}, ${clickedPositon?.row})`}
+                </span> :
+                <span>{'Go to game start'}</span>;
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <button onClick={() => this.jumpTo(move)}>
+                        {desc}
+                    </button>
                 </li>
             );
         });
