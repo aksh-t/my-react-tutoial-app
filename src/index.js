@@ -63,6 +63,7 @@ class Game extends React.Component {
             }],
             stepNumber: 0,
             xIsNext: true,
+            orderIsAsc: true,
         };
     }
 
@@ -80,6 +81,12 @@ class Game extends React.Component {
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext
+        });
+    }
+
+    handleChange(o) {
+        this.setState({
+            orderIsAsc: o === "asc" ? true : false,
         });
     }
 
@@ -133,7 +140,17 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
-                    <div>{moves}</div>
+                    <div>
+                        <input type="radio" name="sort" id="asc" value="asc"
+                            checked={this.state.orderIsAsc}
+                            onChange={() => this.handleChange("asc")}></input>
+                        <label htmlFor="asc">asc</label>
+                        <input type="radio" name="sort" id="desc" value="desc"
+                            checked={!this.state.orderIsAsc}
+                            onChange={() => this.handleChange("desc")}></input>
+                        <label htmlFor="desc">desc</label>
+                    </div>
+                    <div>{this.state.orderIsAsc ? moves : moves.reverse()}</div>
                 </div>
             </div>
         );
