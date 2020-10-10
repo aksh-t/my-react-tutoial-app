@@ -108,6 +108,10 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
         const lineLeadToWin = calculateLineLeadToWin(current.squares);
 
+        // マス数がマジックナンバーになっていて良くない
+        // が、そもそも9マスであるという前提に、アプリケーション全体が依存してるので、そのままにする
+        const isDraw = this.state.stepNumber >= 9 && winner === null;
+
         const moves = history.map((step, move) => {
             // 0手目をもっとスッキリ扱いたい
             const clickedIndex = move ?
@@ -132,6 +136,8 @@ class Game extends React.Component {
         let status;
         if (winner) {
             status = 'Winner: ' + winner;
+        } else if (isDraw) {
+            status = `Draw!!`;
         } else {
             status = `Next player: ` + (this.state.xIsNext ? 'X' : 'O');
         }
