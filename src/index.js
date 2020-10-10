@@ -85,8 +85,14 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
+            // 0手目をもっとスッキリ扱いたい
+            const clickedIndex = move ?
+                step.squares.findIndex((s, i) => s !== history[move - 1].squares[i]) :
+                null;
+            const clickedPositon = clickedIndex !== null ? convertIndexToPostion(clickedIndex) : null;
+
             const desc = move ?
-                'Go to move #' + move :
+                'Go to move #' + move + ` (${clickedPositon?.col}, ${clickedPositon?.row})` :
                 'Go to game start';
             return (
                 <li key={move}>
@@ -144,4 +150,20 @@ function calculateWinner(squares) {
         }
     }
     return null;
+}
+
+function convertIndexToPostion(index) {
+    // 剰余で算出したほうがメンテしやすそう
+    const map = {
+        0: { col: 0, row: 0 },
+        1: { col: 1, row: 0 },
+        2: { col: 2, row: 0 },
+        3: { col: 0, row: 1 },
+        4: { col: 1, row: 1 },
+        5: { col: 2, row: 1 },
+        6: { col: 0, row: 2 },
+        7: { col: 1, row: 2 },
+        8: { col: 2, row: 2 },
+    };
+    return map[index];
 }
